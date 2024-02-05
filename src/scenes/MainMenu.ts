@@ -1,4 +1,6 @@
 import { Scene, GameObjects } from 'phaser';
+import { RENDER_CONSTANTS } from '../config/render_constants';
+import { IMAGE_CONSTANTS } from '../config/image_constants';
 
 export class MainMenu extends Scene
 {
@@ -13,20 +15,28 @@ export class MainMenu extends Scene
 
     create ()
     {
-        this.background = this.add.image(512, 384, 'background');
+      const cameraWidth = this.cameras.main.width
+      const cameraHeight = this.cameras.main.height
 
-        this.logo = this.add.image(512, 300, 'logo');
+      const bg = this.add.image(0, 0, 'background')
+      .setOrigin(0);
 
-        this.title = this.add.text(512, 460, 'Main Menu', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
-            align: 'center'
-        }).setOrigin(0.5);
+      bg.setScale(Math.max(cameraWidth / bg.width, cameraHeight / bg.height))
 
-        this.input.once('pointerdown', () => {
+      this.background = bg;
 
-            this.scene.start('Game');
+      this.logo = this.add.image(RENDER_CONSTANTS.halfGameWidth, 300, IMAGE_CONSTANTS.MENU_LOGO);
 
-        });
+      this.title = this.add.text(RENDER_CONSTANTS.halfGameWidth, 460, 'Main Menu', {
+        fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
+        stroke: '#000000', strokeThickness: 8,
+        align: 'center'
+      }).setOrigin(0.5);
+
+      this.input.once('pointerdown', () => {
+
+          this.scene.start('Game');
+
+      });
     }
 }
