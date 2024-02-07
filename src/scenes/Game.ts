@@ -61,7 +61,7 @@ export class Game extends Scene
     this.playerGroup.on('drag', (e: any, x: number, y: number) => {
       playerGroup.setPosition(x, y)
     })
-    this.physics.
+    // this.physics.
     // (this.input.keyboard || {}).enabled = true
     // playerGroup.on
 
