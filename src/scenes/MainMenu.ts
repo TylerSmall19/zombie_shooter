@@ -1,6 +1,7 @@
 import { Scene, GameObjects } from 'phaser';
-import { RENDER_CONSTANTS } from '../config/render_constants';
-import { IMAGE_CONSTANTS } from '../config/image_constants';
+import { RENDER_CONSTANTS } from '../config/renderConstants';
+import { IMAGE_CONSTANTS } from '../config/imageConstants';
+import { TextButton } from '../objects/buttons/TextButton';
 
 export class MainMenu extends Scene
 {
@@ -25,18 +26,24 @@ export class MainMenu extends Scene
 
     this.background = bg;
 
-    this.logo = this.add.image(RENDER_CONSTANTS.halfGameWidth, 300, IMAGE_CONSTANTS.MENU_LOGO);
+    this.logo = this.add.image(RENDER_CONSTANTS.halfGameWidth, 280, IMAGE_CONSTANTS.MENU_LOGO);
 
-    this.title = this.add.text(RENDER_CONSTANTS.halfGameWidth, 460, 'Main Menu', {
-      fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
+    this.title = this.add.text(0, 0, 'Main Menu', {
+      fontFamily: 'Arial Black', fontSize: 60, color: '#ffffff',
       stroke: '#000000', strokeThickness: 8,
       align: 'center'
-    }).setOrigin(0.5);
+    }).setOrigin(.5)
 
-    this.input.once('pointerdown', () => {
-
+    const createNewGameText = new TextButton(this, 0, 92, 'Create New Game', {
+      fontFamily: 'Arial Black', fontSize: 35, color: '#ffffff',
+      stroke: '#000000', strokeThickness: 5,
+      align: 'center'
+    } as Phaser.GameObjects.TextStyle, () => {
       this.scene.start('Game');
+    }).setOrigin(.5)
 
-    });
+    this.add.container(RENDER_CONSTANTS.halfGameWidth, RENDER_CONSTANTS.halfGameHeight - 75, [this.title, createNewGameText]);
+
+    this.scene.start('Game');
   }
 }

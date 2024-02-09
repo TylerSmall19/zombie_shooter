@@ -1,4 +1,5 @@
 import { Scene } from 'phaser';
+import { IMAGE_CONSTANTS } from '../config/imageConstants';
 
 export class Boot extends Scene
 {
@@ -13,6 +14,7 @@ export class Boot extends Scene
     //  The smaller the file size of the assets, the better, as the Boot Scene itself has no preloader.
 
     this.load.image('background', 'assets/bg.jpeg')
+    this.load.spritesheet(IMAGE_CONSTANTS.PLAYER_SPRITE, 'assets/player_sprite.png', { frameWidth: 300, frameHeight: 300 })
   }
 
   create ()

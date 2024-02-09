@@ -1,5 +1,6 @@
 import { Scene } from 'phaser';
-import { RENDER_CONSTANTS } from '../config/render_constants';
+import { RENDER_CONSTANTS } from '../config/renderConstants';
+import { IMAGE_CONSTANTS } from '../config/imageConstants';
 
 export class Game extends Scene
 {
@@ -19,21 +20,32 @@ export class Game extends Scene
   }
 
   update() {
-    if (this.keyUp.isDown) {
-      this.physics.accelerateTo(this.playerGroup, this.playerGroup.body?.position.x || 0, 0, 100)
-    } else {
-      this.physics.accelerateTo(this.playerGroup, 0, 0, -100)
-      // this.playerGroup.
-      console.log('Set acceleration to 0')
-      console.log(this.playerGroup.body?.velocity)
+    const physicsBody = this.playerGroup.body as Phaser.Physics.Arcade.Body;
+    physicsBody.setMaxVelocity(950);
+
+    if (this.keyLeft.isDown) {
+      physicsBody.setAccelerationX(-18000)
+      physicsBody.setVelocityX(-950);
     }
 
-    this.physics.config.debug = true
+    if (this.keyRight.isDown) {
+      physicsBody.setAccelerationX(18000)
+      physicsBody.setVelocityX(950);
+    }
+
+    if( !this.keyDown.isDown 
+      && !this.keyRight.isDown
+      && !this.keyLeft.isDown 
+      && !this.keyUp.isDown
+      ) {
+      physicsBody.stop()
+    }
   }
 
   init()
   {
     this.physics.world.gravity.set(0, 0);
+    this.physics.world.setBounds(0, 0, RENDER_CONSTANTS.gameWidth, RENDER_CONSTANTS.gameHeight)
 
     if (this.input.keyboard) {
       this.keyUp = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -41,8 +53,6 @@ export class Game extends Scene
       this.keyLeft = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
       this.keyRight = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     };
-
-    this.keyUp.isDown
   }
 
   create ()
@@ -50,32 +60,18 @@ export class Game extends Scene
     this.camera = this.cameras.main;
     this.camera.setBackgroundColor('FCF656');
 
-    const character = this.add.circle(0, 0, 20, 1);
-    const playerGroup = this.add.container(RENDER_CONSTANTS.halfGameWidth, 900, [character])
-    playerGroup.setSize(character.displayWidth, character.displayHeight);
+    const sprite = this.add.sprite(0, 0, IMAGE_CONSTANTS.PLAYER_SPRITE);
+    sprite.setScale(.5);
+
+    const playerGroup = this.add.container(RENDER_CONSTANTS.halfGameWidth, 900, [sprite]);
+    playerGroup.setSize(sprite.displayWidth, sprite.displayHeight);
 
     this.playerGroup = this.physics.add.existing(playerGroup);
     this.playerGroup.setInteractive();
 
     this.input.setDraggable(this.playerGroup)
     this.playerGroup.on('drag', (e: any, x: number, y: number) => {
-      playerGroup.setPosition(x, y)
+      playerGroup.setPosition(x, playerGroup.y)
     })
-    // this.physics.
-    // (this.input.keyboard || {}).enabled = true
-    // playerGroup.on
-
-    // this.msg_text = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-    //     fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-    //     stroke: '#000000', strokeThickness: 8,
-    //     align: 'center'
-    // });
-    // this.msg_text.setOrigin(0.5);
-
-    // this.input.once('pointerdown', () => {
-
-    //   this.scene.start('GameOver');
-
-    // });
   }
 }
