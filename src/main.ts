@@ -1,4 +1,4 @@
-import { RENDER_CONSTANTS } from './config/render_constants';
+import { RENDER_CONSTANTS } from './config/renderConstants';
 import { Boot } from './scenes/Boot';
 import { Game as MainGame } from './scenes/Game';
 import { GameOver } from './scenes/GameOver';

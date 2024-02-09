@@ -1,5 +1,5 @@
 import { Scene } from 'phaser';
-import { IMAGE_CONSTANTS } from '../config/image_constants';
+import { IMAGE_CONSTANTS } from '../config/imageConstants';
 
 export class Preloader extends Scene
 {
