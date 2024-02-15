@@ -15,7 +15,7 @@ export class PlayerContainer extends Phaser.GameObjects.Container {
   body: Phaser.Physics.Arcade.Body
 
   update() {
-    this.body.setMaxVelocity(950);
+    this.body.setMaxVelocity(650);
     this.body.setCollideWorldBounds(true);
 
     const controlsConfig = controls.getPlayerControls();
@@ -51,8 +51,9 @@ export class PlayerContainer extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 
-    this.setSize(150, 150)
-    this.setScale(.15)
+    this.setRandomPosition()
+    this.setScale(.25);
+    this.setSize(500, 500);
     this.setInteractive();
   }
 }

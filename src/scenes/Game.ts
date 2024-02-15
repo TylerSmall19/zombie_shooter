@@ -20,7 +20,7 @@ export class Game extends Scene
 
   init()
   {
-    this.physics.world.setFPS(30);
+    this.physics.world.setFPS(120);
 
     this.physics.world.gravity.set(0, 0);
     this.physics.world.setBounds(0, 0, RENDER_CONSTANTS.gameWidth, RENDER_CONSTANTS.gameHeight)
