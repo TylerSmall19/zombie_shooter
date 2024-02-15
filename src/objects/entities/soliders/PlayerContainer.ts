@@ -10,34 +10,35 @@ export class PlayerContainer extends Phaser.GameObjects.Container {
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, [new BasicSoldier(scene, 0, 0)]);
     this.body = this.body;
+
+    const controlsConfig = controls.getPlayerControls();
+    this.playerControls = this.scene.input.keyboard?.addKeys({
+      left: controlsConfig.playerLeft,
+      right: controlsConfig.playerRight
+    }) as CustomControl
   }
 
   body: Phaser.Physics.Arcade.Body
+  playerControls: CustomControl
 
   update() {
     this.body.setMaxVelocity(650);
     this.body.setCollideWorldBounds(true);
 
-    const controlsConfig = controls.getPlayerControls();
-    const playerControls : CustomControl = this.scene.input.keyboard?.addKeys({
-      left: controlsConfig.playerLeft,
-      right: controlsConfig.playerRight
-    }) as CustomControl
-
-    if (playerControls.left.isDown) {
+    if (this.playerControls.left.isDown) {
       this.body.setAccelerationX(-18000)
       // physicsBody.setVelocityX(-950);
       // console.log('Left veloc:', JSON.stringify(this.body.))
     }
 
-    if (playerControls.right.isDown) {
+    if (this.playerControls.right.isDown) {
       this.body.setAccelerationX(18000)
       // physicsBody.setVelocityX(950);
       // console.log('Right velc: ', JSON.stringify(this.body))
     }
 
-    if(!playerControls.right.isDown
-      && !playerControls.left.isDown
+    if(!this.playerControls.right.isDown
+      && !this.playerControls.left.isDown
       ) {
       this.body.stop()
     }
@@ -51,9 +52,9 @@ export class PlayerContainer extends Phaser.GameObjects.Container {
     this.scene.add.existing(this);
     this.scene.physics.add.existing(this);
 
-    this.setRandomPosition()
-    this.setScale(.25);
-    this.setSize(500, 500);
+    this.setScale(1);
+    console.log(this.displayHeight)
+    this.setSize(300, 300);
     this.setInteractive();
   }
 }

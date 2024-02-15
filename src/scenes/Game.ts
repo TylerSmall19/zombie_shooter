@@ -1,6 +1,6 @@
 import { Scene } from 'phaser';
 import { RENDER_CONSTANTS } from '../config/renderConstants';
-import { PlayerContainer } from '../objects/entities/players/PlayerContainer';
+import { PlayerContainer } from '../objects/entities/soliders/PlayerContainer';
 
 export class Game extends Scene
 {
